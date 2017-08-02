@@ -1,6 +1,15 @@
 package com.iris.study.springboot.starter;
 
-import com.iris.study.springboot.common.util.DefaultProfileUtil;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.apache.http.impl.nio.conn.PoolingNHttpClientConnectionManager;
+import org.apache.http.impl.nio.reactor.DefaultConnectingIOReactor;
+import org.apache.http.nio.conn.NoopIOSessionStrategy;
+import org.apache.http.nio.conn.SchemeIOSessionStrategy;
+import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,9 +20,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
+import org.springframework.http.client.AsyncClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsAsyncClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
+
+import javax.net.ssl.SSLContext;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * TaskApplication [spring boot] 主方法
@@ -49,6 +63,28 @@ public class ApplicationStarter {
         httpRequestFactory.setReadTimeout(httpConnectionReadTimeout);
 
         return new RestTemplate(httpRequestFactory);
+    }
+
+    @Bean
+    protected AsyncRestTemplate asyncRestTemplate() throws Exception {
+        SSLIOSessionStrategy strategy = new SSLIOSessionStrategy(
+                SSLContext.getDefault(),
+                SSLSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER
+        );
+        Registry<SchemeIOSessionStrategy> registry = RegistryBuilder.<SchemeIOSessionStrategy>create()
+                .register("http", NoopIOSessionStrategy.INSTANCE)
+                .register("https", strategy)
+                .build();
+        PoolingNHttpClientConnectionManager connManager = new PoolingNHttpClientConnectionManager(
+                new DefaultConnectingIOReactor(),
+                registry
+        );
+        CloseableHttpAsyncClient httpClient = HttpAsyncClientBuilder
+                .create()
+                .setConnectionManager(connManager)
+                .build();
+        AsyncClientHttpRequestFactory requestFactory = new HttpComponentsAsyncClientHttpRequestFactory(httpClient);
+        return new AsyncRestTemplate(requestFactory);
     }
 
 
