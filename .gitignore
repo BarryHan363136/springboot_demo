@@ -1,5 +1,5 @@
 # Created by .ignore support plugin (hsz.mobi)
-.idea/*.xml
+.idea/vcs.xml
 .idea/*
 target/*
 /data/*
