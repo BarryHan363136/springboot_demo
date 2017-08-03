@@ -1,4 +1,8 @@
-.idea
+# Created by .ignore support plugin (hsz.mobi)
+.idea/*
+target/*
+/data/*
 *.iml
-README.md
+**.iml
+*/target/*
 
