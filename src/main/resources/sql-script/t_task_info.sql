@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-08-08 11:40:39
+Date: 2017-08-08 17:24:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -20,22 +20,19 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `t_task_info`;
 CREATE TABLE `t_task_info` (
-  `id` varchar(50) NOT NULL COMMENT 'id主键',
-  `job_name` varchar(300) NOT NULL COMMENT '任务名称',
-  `job_group` varchar(300) NOT NULL COMMENT '任务组名',
-  `job_status` varchar(255) NOT NULL COMMENT '任务状态 1启用 2删除',
-  `cron_expression` varchar(100) NOT NULL COMMENT '任务运行时间表达式',
-  `job_description` varchar(255) DEFAULT NULL COMMENT '任务描述',
-  `job_todourl` varchar(255) DEFAULT NULL COMMENT '任务执行调用链接',
-  `create_by` bigint(20) DEFAULT '0' COMMENT '创建人ID',
-  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间 - create_time',
-  `update_by` bigint(20) DEFAULT NULL COMMENT '更新人ID',
-  `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间 - modfiy_time',
-  `is_deleted` char(1) DEFAULT NULL COMMENT '逻辑删除标志',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name_group` (`job_name`,`job_group`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='日志信息表';
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `job_name` varchar(100) NOT NULL,
+  `job_group` varchar(100) NOT NULL,
+  `job_description` varchar(200) DEFAULT NULL,
+  `job_status` int(2) NOT NULL DEFAULT '0' COMMENT '任务状态: 1-启用2；2-停用；3-删除',
+  `cron_expression` varchar(100) DEFAULT NULL,
+  `create_time` varchar(64) DEFAULT NULL,
+  `updata_time` varchar(64) DEFAULT NULL,
+  `remark` varchar(400) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of t_task_info
 -- ----------------------------
+INSERT INTO `t_task_info` VALUES ('1', 'Task测试job', 'JOB-GROUP-TEST', '测试数据', '1', '0/5 * * * * ?', null, null, null);

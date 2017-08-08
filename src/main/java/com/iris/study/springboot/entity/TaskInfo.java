@@ -1,38 +1,46 @@
 package com.iris.study.springboot.entity;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class TaskInfo {
-	private String id;
+/**
+ * 管理定时任务
+ */
+public class TaskInfo implements Serializable{
 
+	private static final long serialVersionUID = -8054692082716173379L;
+
+	private int id;
+
+	/**任务名称*/
 	private String jobName;
-
+	
+	/**任务分组*/
 	private String jobGroup;
-
+	
+	/**任务描述*/
+	private String jobDescription;
+	
+	/**任务状态*/
 	private String jobStatus;
-
+	
+	/**任务表达式*/
 	private String cronExpression;
 
-	private String jobDescription;
+	/**创建时间*/
+	private String createTime;
 
-	private String jobTodourl;
+	/**更新时间*/
+	private String updataTime;
 
-	private Long createBy;
+	/**备注*/
+	private String remark;
 
-	private Date createTime;
-
-	private Long updateBy;
-
-	private Date updateTime;
-
-	private String isDeleted;
-
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
-		this.id = id == null ? null : id.trim();
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getJobName() {
@@ -40,7 +48,7 @@ public class TaskInfo {
 	}
 
 	public void setJobName(String jobName) {
-		this.jobName = jobName == null ? null : jobName.trim();
+		this.jobName = jobName;
 	}
 
 	public String getJobGroup() {
@@ -48,23 +56,7 @@ public class TaskInfo {
 	}
 
 	public void setJobGroup(String jobGroup) {
-		this.jobGroup = jobGroup == null ? null : jobGroup.trim();
-	}
-
-	public String getJobStatus() {
-		return jobStatus;
-	}
-
-	public void setJobStatus(String jobStatus) {
-		this.jobStatus = jobStatus == null ? null : jobStatus.trim();
-	}
-
-	public String getCronExpression() {
-		return cronExpression;
-	}
-
-	public void setCronExpression(String cronExpression) {
-		this.cronExpression = cronExpression == null ? null : cronExpression.trim();
+		this.jobGroup = jobGroup;
 	}
 
 	public String getJobDescription() {
@@ -72,54 +64,47 @@ public class TaskInfo {
 	}
 
 	public void setJobDescription(String jobDescription) {
-		this.jobDescription = jobDescription == null ? null : jobDescription.trim();
+		this.jobDescription = jobDescription;
 	}
 
-	public String getJobTodourl() {
-		return jobTodourl;
+	public String getJobStatus() {
+		return jobStatus;
 	}
 
-	public void setJobTodourl(String jobTodourl) {
-		this.jobTodourl = jobTodourl == null ? null : jobTodourl.trim();
+	public void setJobStatus(String jobStatus) {
+		this.jobStatus = jobStatus;
 	}
 
-	public Long getCreateBy() {
-		return createBy;
+	public String getCronExpression() {
+		return cronExpression;
 	}
 
-	public void setCreateBy(Long createBy) {
-		this.createBy = createBy;
+	public void setCronExpression(String cronExpression) {
+		this.cronExpression = cronExpression;
 	}
 
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 
-	public Long getUpdateBy() {
-		return updateBy;
+	public String getUpdataTime() {
+		return updataTime;
 	}
 
-	public void setUpdateBy(Long updateBy) {
-		this.updateBy = updateBy;
+	public void setUpdataTime(String updataTime) {
+		this.updataTime = updataTime;
 	}
 
-	public Date getUpdateTime() {
-		return updateTime;
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
-	public String getIsDeleted() {
-		return isDeleted;
-	}
-
-	public void setIsDeleted(String isDeleted) {
-		this.isDeleted = isDeleted == null ? null : isDeleted.trim();
-	}
 }

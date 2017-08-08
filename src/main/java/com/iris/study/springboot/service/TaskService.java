@@ -14,7 +14,4 @@ public interface TaskService {
 
     public void delete(String jobName, String jobGroup);
 
-    public String doTask(TaskInfo jobObject);
-
-
 }

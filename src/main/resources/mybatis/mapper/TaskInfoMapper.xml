@@ -2,43 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.iris.study.springboot.mapper.TaskInfoMapper" >
   <resultMap id="BaseResultMap" type="com.iris.study.springboot.entity.TaskInfo" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="INTEGER" />
     <result column="job_name" property="jobName" jdbcType="VARCHAR" />
     <result column="job_group" property="jobGroup" jdbcType="VARCHAR" />
-    <result column="job_status" property="jobStatus" jdbcType="VARCHAR" />
-    <result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />
     <result column="job_description" property="jobDescription" jdbcType="VARCHAR" />
-    <result column="job_todourl" property="jobTodourl" jdbcType="VARCHAR" />
-    <result column="create_by" property="createBy" jdbcType="BIGINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="is_deleted" property="isDeleted" jdbcType="CHAR" />
+    <result column="job_status" property="jobStatus" jdbcType="INTEGER" />
+    <result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="updata_time" property="updataTime" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, job_name, job_group, job_status, cron_expression, job_description, job_todourl, 
-    create_by, create_time, update_by, update_time, is_deleted
+    id, job_name, job_group, job_description, job_status, cron_expression, create_time, 
+    updata_time, remark
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_task_info
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_task_info
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.iris.study.springboot.entity.TaskInfo" >
     insert into t_task_info (id, job_name, job_group, 
-      job_status, cron_expression, job_description, 
-      job_todourl, create_by, create_time, 
-      update_by, update_time, is_deleted
+      job_description, job_status, cron_expression, 
+      create_time, updata_time, remark
       )
-    values (#{id,jdbcType=VARCHAR}, #{jobName,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR}, 
-      #{jobStatus,jdbcType=VARCHAR}, #{cronExpression,jdbcType=VARCHAR}, #{jobDescription,jdbcType=VARCHAR}, 
-      #{jobTodourl,jdbcType=VARCHAR}, #{createBy,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateBy,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{isDeleted,jdbcType=CHAR}
+    values (#{id,jdbcType=INTEGER}, #{jobName,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR}, 
+      #{jobDescription,jdbcType=VARCHAR}, #{jobStatus,jdbcType=INTEGER}, #{cronExpression,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{updataTime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.iris.study.springboot.entity.TaskInfo" >
@@ -53,37 +48,28 @@
       <if test="jobGroup != null" >
         job_group,
       </if>
+      <if test="jobDescription != null" >
+        job_description,
+      </if>
       <if test="jobStatus != null" >
         job_status,
       </if>
       <if test="cronExpression != null" >
         cron_expression,
       </if>
-      <if test="jobDescription != null" >
-        job_description,
-      </if>
-      <if test="jobTodourl != null" >
-        job_todourl,
-      </if>
-      <if test="createBy != null" >
-        create_by,
-      </if>
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="updateBy != null" >
-        update_by,
+      <if test="updataTime != null" >
+        updata_time,
       </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="isDeleted != null" >
-        is_deleted,
+      <if test="remark != null" >
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="jobName != null" >
         #{jobName,jdbcType=VARCHAR},
@@ -91,32 +77,23 @@
       <if test="jobGroup != null" >
         #{jobGroup,jdbcType=VARCHAR},
       </if>
+      <if test="jobDescription != null" >
+        #{jobDescription,jdbcType=VARCHAR},
+      </if>
       <if test="jobStatus != null" >
-        #{jobStatus,jdbcType=VARCHAR},
+        #{jobStatus,jdbcType=INTEGER},
       </if>
       <if test="cronExpression != null" >
         #{cronExpression,jdbcType=VARCHAR},
       </if>
-      <if test="jobDescription != null" >
-        #{jobDescription,jdbcType=VARCHAR},
-      </if>
-      <if test="jobTodourl != null" >
-        #{jobTodourl,jdbcType=VARCHAR},
-      </if>
-      <if test="createBy != null" >
-        #{createBy,jdbcType=BIGINT},
-      </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+        #{createTime,jdbcType=VARCHAR},
       </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=BIGINT},
+      <if test="updataTime != null" >
+        #{updataTime,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDeleted != null" >
-        #{isDeleted,jdbcType=CHAR},
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -129,50 +106,38 @@
       <if test="jobGroup != null" >
         job_group = #{jobGroup,jdbcType=VARCHAR},
       </if>
+      <if test="jobDescription != null" >
+        job_description = #{jobDescription,jdbcType=VARCHAR},
+      </if>
       <if test="jobStatus != null" >
-        job_status = #{jobStatus,jdbcType=VARCHAR},
+        job_status = #{jobStatus,jdbcType=INTEGER},
       </if>
       <if test="cronExpression != null" >
         cron_expression = #{cronExpression,jdbcType=VARCHAR},
       </if>
-      <if test="jobDescription != null" >
-        job_description = #{jobDescription,jdbcType=VARCHAR},
-      </if>
-      <if test="jobTodourl != null" >
-        job_todourl = #{jobTodourl,jdbcType=VARCHAR},
-      </if>
-      <if test="createBy != null" >
-        create_by = #{createBy,jdbcType=BIGINT},
-      </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=VARCHAR},
       </if>
-      <if test="updateBy != null" >
-        update_by = #{updateBy,jdbcType=BIGINT},
+      <if test="updataTime != null" >
+        updata_time = #{updataTime,jdbcType=VARCHAR},
       </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="isDeleted != null" >
-        is_deleted = #{isDeleted,jdbcType=CHAR},
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.iris.study.springboot.entity.TaskInfo" >
     update t_task_info
     set job_name = #{jobName,jdbcType=VARCHAR},
       job_group = #{jobGroup,jdbcType=VARCHAR},
-      job_status = #{jobStatus,jdbcType=VARCHAR},
-      cron_expression = #{cronExpression,jdbcType=VARCHAR},
       job_description = #{jobDescription,jdbcType=VARCHAR},
-      job_todourl = #{jobTodourl,jdbcType=VARCHAR},
-      create_by = #{createBy,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      is_deleted = #{isDeleted,jdbcType=CHAR}
-    where id = #{id,jdbcType=VARCHAR}
+      job_status = #{jobStatus,jdbcType=INTEGER},
+      cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      updata_time = #{updataTime,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 
   <select id="findResults" resultMap="BaseResultMap" parameterType="java.util.Map" >
