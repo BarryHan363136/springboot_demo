@@ -2,7 +2,6 @@ package com.iris.study.springboot.service;
 
 import com.iris.study.springboot.base.BaseTest;
 import com.iris.study.springboot.entity.TaskInfo;
-import com.iris.study.springboot.mapper.TaskInfoMapper;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

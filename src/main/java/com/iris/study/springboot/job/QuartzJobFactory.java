@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 定时任务运行工厂类
  * 
  */
-//@DisallowConcurrentExecution
+@DisallowConcurrentExecution
 public class QuartzJobFactory implements Job, Serializable {
 
 	private static final Logger logger = LoggerFactory.getLogger(QuartzJobFactory.class);
