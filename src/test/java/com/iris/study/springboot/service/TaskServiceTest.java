@@ -17,6 +17,15 @@ public class TaskServiceTest extends BaseTest {
     private TaskService taskService;
 
     @Test
+    public void testStartTask(){
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setJobGroup("TEST-GROUP-001");
+        taskInfo.setJobName("TASK测试job");
+        taskInfo.setJobDescription("JOB DES TEST EXECUTE JOB");
+        taskInfo.setJobStatus(1);
+    }
+
+    @Test
     public void testDoTask(){
         List<TaskInfo> list = taskService.getTaskList();
         for (TaskInfo taskInfo : list){
