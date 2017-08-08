@@ -6,12 +6,12 @@ import java.util.List;
 
 public interface TaskService {
 
-    public List<TaskInfo> list();
+    public List<TaskInfo> getTaskList();
 
-    public void addJob(TaskInfo info);
+    public void addTask(TaskInfo info);
 
-    public void edit(TaskInfo info);
+    public void editTask(TaskInfo info);
 
-    public void delete(String jobName, String jobGroup);
+    public void deleteTask(String jobName, String jobGroup);
 
 }

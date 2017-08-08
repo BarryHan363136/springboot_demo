@@ -3,18 +3,13 @@ package com.iris.study.springboot.config;
 import java.io.IOException;
 import java.util.Properties;
 
-import com.iris.study.springboot.job.QuartzJobFactory;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
 import org.quartz.impl.StdSchedulerFactory;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 @Configuration
 @EnableScheduling

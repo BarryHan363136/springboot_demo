@@ -15,25 +15,13 @@ public class TaskServiceTest extends BaseTest {
     private static final Logger logger = LoggerFactory.getLogger(TaskServiceTest.class);
 
     @Autowired
-    private TaskInfoMapper taskInfoMapper;
-
-    @Autowired
     private TaskService taskService;
 
     @Test
-    public void testFindTasks(){
-        List<TaskInfo> list = taskInfoMapper.findResults(null);
-        for (TaskInfo taskInfo : list){
-            logger.info("=======================>"+taskInfo.getJobGroup());
-            logger.info("=======================>"+taskInfo.getJobName());
-            logger.info("=======================>"+taskInfo.getCronExpression());
-        }
-    }
-
-    @Test
     public void testDoTask(){
-        List<TaskInfo> list = taskInfoMapper.findResults(null);
+        List<TaskInfo> list = taskService.getTaskList();
         for (TaskInfo taskInfo : list){
+            taskService.addTask(taskInfo);
         }
     }
 

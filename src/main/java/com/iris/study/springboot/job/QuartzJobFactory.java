@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 定时任务运行工厂类
  * 
  */
-@DisallowConcurrentExecution
+//@DisallowConcurrentExecution
 public class QuartzJobFactory implements Job, Serializable {
 
 	private static final Logger logger = LoggerFactory.getLogger(QuartzJobFactory.class);
@@ -28,11 +28,13 @@ public class QuartzJobFactory implements Job, Serializable {
 	}
 
 	private void executeJob(TaskInfo taskInfo){
-		long currentTime = System.currentTimeMillis();
-		logger.info(currentTime + " --> 开始执行任务 ", "调用 [ " + taskInfo.getJobName() + " ] 任务", taskInfo.getCronExpression(), "");
-
-		logger.info(currentTime + " --> 一次请求所消耗的时间 ms", "调用 [ " + taskInfo.getJobName() + " ] 任务",
-				String.valueOf(System.currentTimeMillis() - currentTime) + " ms", "");
+		try {
+			logger.info("<=========BEGIN=================>");
+			logger.info("==========>jobName:"+taskInfo.getJobName()+",cromExpression:"+taskInfo.getCronExpression());
+			logger.info("<=========END=================>");
+		} catch (Exception e) {
+			logger.error("executeJob error {} ", e);
+		}
 	}
 
 }

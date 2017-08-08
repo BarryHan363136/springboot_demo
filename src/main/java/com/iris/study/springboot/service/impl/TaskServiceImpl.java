@@ -1,8 +1,10 @@
 package com.iris.study.springboot.service.impl;
 
 import com.iris.study.springboot.entity.TaskInfo;
+import com.iris.study.springboot.job.QuartzJobFactory;
 import com.iris.study.springboot.mapper.TaskInfoMapper;
 import com.iris.study.springboot.service.TaskService;
+
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -10,7 +12,6 @@ import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.quartz.TriggerKey;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -30,8 +31,9 @@ public class TaskServiceImpl implements TaskService {
      * 所有任务列表
      * 2016年10月9日上午11:16:59
      */
-    public List<TaskInfo> list(){
-        List<TaskInfo> list = new ArrayList<TaskInfo>();
+    @Override
+    public List<TaskInfo> getTaskList(){
+        List<TaskInfo> list = null;
         try {
             list = taskInfoMapper.findResults(null);
         } catch (Exception e) {
@@ -43,32 +45,39 @@ public class TaskServiceImpl implements TaskService {
 
     /**
      * 保存定时任务
-     * @param info
+     * @param taskInfo
      * 2016年10月9日上午11:30:40
      */
-    @SuppressWarnings("unchecked")
-    public void addJob(TaskInfo info) {
-        String jobName = info.getJobName(),
-                jobGroup = info.getJobGroup(),
-                cronExpression = info.getCronExpression(),
-                jobDescription = info.getJobDescription(),
+    @Override
+    public void addTask(TaskInfo taskInfo) {
+        String jobName = taskInfo.getJobName(),
+                jobGroup = taskInfo.getJobGroup(),
+                cronExpression = taskInfo.getCronExpression(),
+                jobDescription = taskInfo.getJobDescription(),
                 createTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
         try {
             if (checkExists(jobName, jobGroup)) {
-                logger.info("===> AddJob fail, job already exist, jobGroup:{} "+jobGroup+" jobName:{}"+jobName);
+                logger.info("===> AddJob fail, job already exist, jobGroup:{} "+jobGroup+" jobName:{} "+jobName);
                 throw new RuntimeException(String.format("Job已经存在, jobName:{%s},jobGroup:{%s}", jobName, jobGroup));
             }
-
             TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
-            JobKey jobKey = JobKey.jobKey(jobName, jobGroup);
 
-            CronScheduleBuilder schedBuilder = CronScheduleBuilder.cronSchedule(cronExpression).withMisfireHandlingInstructionDoNothing();
-            CronTrigger trigger = TriggerBuilder.newTrigger().withIdentity(triggerKey).withDescription(createTime).withSchedule(schedBuilder).build();
-
-            Class<? extends Job> clazz = (Class<? extends Job>)Class.forName(jobName);
-            JobDetail jobDetail = JobBuilder.newJob(clazz).withIdentity(jobKey).withDescription(jobDescription).build();
-            scheduler.scheduleJob(jobDetail, trigger);
-        } catch (SchedulerException | ClassNotFoundException e) {
+            CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
+            if (trigger==null){
+                JobDetail jobDetail = JobBuilder.newJob(QuartzJobFactory.class)
+                        .withIdentity(taskInfo.getJobName(), taskInfo.getJobGroup()).build();
+                jobDetail.getJobDataMap().put("scheduleJob", taskInfo);
+                // 表达式调度构建器
+                CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(taskInfo.getCronExpression());
+                // 按新的cronExpression表达式构建一个新的trigger
+                trigger = TriggerBuilder.newTrigger().withIdentity(taskInfo.getJobName(), taskInfo.getJobGroup())
+                        .withSchedule(scheduleBuilder).build();
+                scheduler.scheduleJob(jobDetail, trigger);
+                if (scheduler.isShutdown()){
+                    scheduler.start();
+                }
+            }
+        } catch (Exception e) {
             logger.error("addJob error {} ", e);
         }
     }
@@ -78,7 +87,8 @@ public class TaskServiceImpl implements TaskService {
      * @param info
      * 2016年10月9日下午2:20:07
      */
-    public void edit(TaskInfo info) {
+    @Override
+    public void editTask(TaskInfo info) {
         String jobName = info.getJobName(),
                 jobGroup = info.getJobGroup(),
                 cronExpression = info.getCronExpression(),
@@ -110,7 +120,8 @@ public class TaskServiceImpl implements TaskService {
      * @param jobGroup
      * 2016年10月9日下午1:51:12
      */
-    public void delete(String jobName, String jobGroup){
+    @Override
+    public void deleteTask(String jobName, String jobGroup){
         TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
         try {
             if (checkExists(jobName, jobGroup)) {
