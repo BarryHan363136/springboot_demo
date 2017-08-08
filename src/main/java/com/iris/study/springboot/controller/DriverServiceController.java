@@ -1,6 +1,7 @@
 package com.iris.study.springboot.controller;
 
 import com.iris.study.springboot.vo.boss.CustomInfo;
+import com.iris.study.springboot.vo.boss.ResponseMessage;
 import com.iris.study.springboot.vo.boss.VehicleInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,18 +15,16 @@ public class DriverServiceController {
     private static final Logger logger = LoggerFactory.getLogger(DriverServiceController.class);
 
     @RequestMapping(value="/receiveCustomInfo", method = RequestMethod.POST)
-    @ResponseBody
-    public CustomInfo receiveCustomInfo(@RequestBody CustomInfo customInfo) {
-
-        return customInfo;
+    public ResponseMessage receiveCustomInfo(@RequestBody CustomInfo customInfo) {
+        logger.debug("into BossController receiveCustomInfo ...");
+        return new ResponseMessage("1", "接收成功!");
     }
 
     @RequestMapping(value="/receiveVehicleInfo", method = RequestMethod.POST)
-    @ResponseBody
-    public VehicleInfo receiveVehicleInfo(@RequestBody VehicleInfo vehicleInfo) {
-        logger.debug("into BossController sendVehicleInfo ...");
+    public ResponseMessage receiveVehicleInfo(@RequestBody VehicleInfo vehicleInfo) {
+        logger.debug("into BossController receiveVehicleInfo ...");
 
-        return vehicleInfo;
+        return new ResponseMessage("1", "接收成功!");
     }
 
 }
