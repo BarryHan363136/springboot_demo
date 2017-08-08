@@ -1,5 +1,6 @@
 package com.iris.study.springboot.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.iris.study.springboot.vo.boss.CustomInfo;
 import com.iris.study.springboot.vo.boss.ResponseMessage;
 import com.iris.study.springboot.vo.boss.VehicleInfo;
@@ -17,13 +18,14 @@ public class DriverServiceController {
     @RequestMapping(value="/receiveCustomInfo", method = RequestMethod.POST)
     public ResponseMessage receiveCustomInfo(@RequestBody CustomInfo customInfo) {
         logger.debug("into BossController receiveCustomInfo ...");
+        logger.info("receiveCustomInfo接收到的参数为:"+ JSON.toJSONString(customInfo));
         return new ResponseMessage("1", "接收成功!");
     }
 
     @RequestMapping(value="/receiveVehicleInfo", method = RequestMethod.POST)
     public ResponseMessage receiveVehicleInfo(@RequestBody VehicleInfo vehicleInfo) {
         logger.debug("into BossController receiveVehicleInfo ...");
-
+        logger.info("receiveVehicleInfo接收到的参数为:"+ JSON.toJSONString(vehicleInfo));
         return new ResponseMessage("1", "接收成功!");
     }
 
