@@ -16,21 +16,28 @@ public class TaskServiceTest extends BaseTest {
     @Autowired
     private TaskService taskService;
 
-    @Test
-    public void testStartTask(){
-        TaskInfo taskInfo = new TaskInfo();
-        taskInfo.setJobGroup("TEST-GROUP-001");
-        taskInfo.setJobName("TASK测试job");
-        taskInfo.setJobDescription("JOB DES TEST EXECUTE JOB");
-        taskInfo.setJobStatus(1);
-    }
-
+    /**
+     * 添加一个job任务
+     * */
     @Test
     public void testDoTask(){
         List<TaskInfo> list = taskService.getTaskList();
         for (TaskInfo taskInfo : list){
-            taskService.addTask(taskInfo);
+            taskService.addJob(taskInfo);
         }
+    }
+
+    /**
+     * 停止一个正在执行的定时任务
+     * */
+    @Test
+    public void testPauseJob(){
+        TaskInfo taskInfo = new TaskInfo();
+        taskInfo.setJobName("Task测试job");
+        taskInfo.setJobGroup("JOB-GROUP-TEST");
+        taskInfo.setCronExpression("0/5 * * * * ?");
+        taskInfo.setJobStatus("2");
+        taskService.pauseJob(taskInfo);
     }
 
 }

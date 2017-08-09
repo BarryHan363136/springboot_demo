@@ -29,8 +29,8 @@ public class TaskServiceImpl implements TaskService {
     private TaskInfoMapper taskInfoMapper;
 
     /**
-     * 所有任务列表
-     * 2016年10月9日上午11:16:59
+     * 获取数据库中所有的定时任务
+     *
      */
     @Override
     public List<TaskInfo> getTaskList(){
@@ -47,10 +47,10 @@ public class TaskServiceImpl implements TaskService {
     /**
      * 保存定时任务
      * @param taskInfo
-     * 2016年10月9日上午11:30:40
+     *
      */
     @Override
-    public void addTask(TaskInfo taskInfo) {
+    public void addJob(TaskInfo taskInfo) {
         String jobName = taskInfo.getJobName(),
                 jobGroup = taskInfo.getJobGroup(),
                 cronExpression = taskInfo.getCronExpression(),
@@ -85,21 +85,21 @@ public class TaskServiceImpl implements TaskService {
                 scheduler.rescheduleJob(triggerKey, trigger);
             }
         } catch (Exception e) {
-            logger.error("addJob error {} ", e);
+            logger.error("addTask error {} ", e);
         }
     }
 
     /**
      * 修改定时任务
-     * @param info
-     * 2016年10月9日下午2:20:07
+     * @param taskInfo
+     *
      */
     @Override
-    public void editTask(TaskInfo info) {
-        String jobName = info.getJobName(),
-                jobGroup = info.getJobGroup(),
-                cronExpression = info.getCronExpression(),
-                jobDescription = info.getJobDescription(),
+    public void editJob(TaskInfo taskInfo) {
+        String jobName = taskInfo.getJobName(),
+                jobGroup = taskInfo.getJobGroup(),
+                cronExpression = taskInfo.getCronExpression(),
+                jobDescription = taskInfo.getJobDescription(),
                 createTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");
         try {
             if (!checkExists(jobName, jobGroup)) {
@@ -122,26 +122,6 @@ public class TaskServiceImpl implements TaskService {
     }
 
     /**
-     * 删除定时任务
-     * @param jobName
-     * @param jobGroup
-     * 2016年10月9日下午1:51:12
-     */
-    @Override
-    public void deleteTask(String jobName, String jobGroup){
-        TriggerKey triggerKey = TriggerKey.triggerKey(jobName, jobGroup);
-        try {
-            if (checkExists(jobName, jobGroup)) {
-                scheduler.pauseTrigger(triggerKey);
-                scheduler.unscheduleJob(triggerKey);
-                logger.info("===> delete, triggerKey:{} "+ triggerKey);
-            }
-        } catch (SchedulerException e) {
-            logger.error("delete error {} ", e);
-        }
-    }
-
-    /**
      * 验证是否存在
      * @param jobName
      * @param jobGroup
@@ -159,14 +139,51 @@ public class TaskServiceImpl implements TaskService {
      * @return
      * @throws SchedulerException
      */
-    public List<TaskInfo> getAllJob() throws SchedulerException {
-        GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
-        Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
-        List<TaskInfo> jobList = new ArrayList<TaskInfo>();
-        for (JobKey jobKey : jobKeys) {
-            List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
-            for (Trigger trigger : triggers) {
+    public List<TaskInfo> getAllJob() {
+        List<TaskInfo> jobList = null;
+        try {
+            GroupMatcher<JobKey> matcher = GroupMatcher.anyJobGroup();
+            Set<JobKey> jobKeys = scheduler.getJobKeys(matcher);
+            jobList = new ArrayList<TaskInfo>();
+            for (JobKey jobKey : jobKeys) {
+                List<? extends Trigger> triggers = scheduler.getTriggersOfJob(jobKey);
+                for (Trigger trigger : triggers) {
+                    TaskInfo job = new TaskInfo();
+                    job.setJobName(jobKey.getName());
+                    job.setJobGroup(jobKey.getGroup());
+                    job.setJobDescription("触发器:" + trigger.getKey());
+                    Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
+                    job.setJobStatus(triggerState.name());
+                    if (trigger instanceof CronTrigger) {
+                        CronTrigger cronTrigger = (CronTrigger) trigger;
+                        String cronExpression = cronTrigger.getCronExpression();
+                        job.setCronExpression(cronExpression);
+                    }
+                    jobList.add(job);
+                }
+            }
+        } catch (SchedulerException e) {
+            logger.error("getAllJob error {} ", e);
+        }
+        return jobList;
+    }
+
+    /**
+     * 所有正在运行的job
+     *
+     * @return
+     * @throws SchedulerException
+     */
+    public List<TaskInfo> getRunningJob() {
+        List<TaskInfo> jobList = null;
+        try {
+            List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
+            jobList = new ArrayList<TaskInfo>(executingJobs.size());
+            for (JobExecutionContext executingJob : executingJobs) {
                 TaskInfo job = new TaskInfo();
+                JobDetail jobDetail = executingJob.getJobDetail();
+                JobKey jobKey = jobDetail.getKey();
+                Trigger trigger = executingJob.getTrigger();
                 job.setJobName(jobKey.getName());
                 job.setJobGroup(jobKey.getGroup());
                 job.setJobDescription("触发器:" + trigger.getKey());
@@ -179,35 +196,8 @@ public class TaskServiceImpl implements TaskService {
                 }
                 jobList.add(job);
             }
-        }
-        return jobList;
-    }
-
-    /**
-     * 所有正在运行的job
-     *
-     * @return
-     * @throws SchedulerException
-     */
-    public List<TaskInfo> getRunningJob() throws SchedulerException {
-        List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
-        List<TaskInfo> jobList = new ArrayList<TaskInfo>(executingJobs.size());
-        for (JobExecutionContext executingJob : executingJobs) {
-            TaskInfo job = new TaskInfo();
-            JobDetail jobDetail = executingJob.getJobDetail();
-            JobKey jobKey = jobDetail.getKey();
-            Trigger trigger = executingJob.getTrigger();
-            job.setJobName(jobKey.getName());
-            job.setJobGroup(jobKey.getGroup());
-            job.setJobDescription("触发器:" + trigger.getKey());
-            Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
-            job.setJobStatus(triggerState.name());
-            if (trigger instanceof CronTrigger) {
-                CronTrigger cronTrigger = (CronTrigger) trigger;
-                String cronExpression = cronTrigger.getCronExpression();
-                job.setCronExpression(cronExpression);
-            }
-            jobList.add(job);
+        } catch (SchedulerException e) {
+            logger.error("getRunningJob error {} ", e);
         }
         return jobList;
     }
@@ -218,9 +208,17 @@ public class TaskServiceImpl implements TaskService {
      * @param scheduleJob
      * @throws SchedulerException
      */
-    public void pauseJob(TaskInfo scheduleJob) throws SchedulerException {
-        JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
-        scheduler.pauseJob(jobKey);
+    public void pauseJob(TaskInfo scheduleJob) {
+        try {
+            if (checkExists(scheduleJob.getJobName(), scheduleJob.getJobGroup())){
+                JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
+                scheduler.pauseJob(jobKey);
+            }else {
+                throw new RuntimeException("暂停的job不存在,jobName:"+scheduleJob.getJobName()+",jobGroup:"+scheduleJob.getJobGroup());
+            }
+        } catch (SchedulerException e) {
+            logger.error("pauseJob error {} ", e);
+        }
     }
 
     /**
@@ -229,9 +227,17 @@ public class TaskServiceImpl implements TaskService {
      * @param scheduleJob
      * @throws SchedulerException
      */
-    public void resumeJob(TaskInfo scheduleJob) throws SchedulerException {
-        JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
-        scheduler.resumeJob(jobKey);
+    public void resumeJob(TaskInfo scheduleJob) {
+        try {
+            if (checkExists(scheduleJob.getJobName(), scheduleJob.getJobGroup())) {
+                JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
+                scheduler.resumeJob(jobKey);
+            }else {
+                throw new RuntimeException("恢复的job不存在,jobName:"+scheduleJob.getJobName()+",jobGroup:"+scheduleJob.getJobGroup());
+            }
+        } catch (SchedulerException e) {
+            logger.error("resumeJob error {} ", e);
+        }
     }
 
     /**
@@ -240,9 +246,17 @@ public class TaskServiceImpl implements TaskService {
      * @param scheduleJob
      * @throws SchedulerException
      */
-    public void deleteJob(TaskInfo scheduleJob) throws SchedulerException {
-        JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
-        scheduler.deleteJob(jobKey);
+    public void deleteJob(TaskInfo scheduleJob) {
+        try {
+            if (checkExists(scheduleJob.getJobName(), scheduleJob.getJobGroup())) {
+                JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
+                scheduler.deleteJob(jobKey);
+            }else {
+                throw new RuntimeException("删除的job不存在,jobName:"+scheduleJob.getJobName()+",jobGroup:"+scheduleJob.getJobGroup());
+            }
+        } catch (SchedulerException e) {
+            logger.error("deleteJob error {} ", e);
+        }
 
     }
 
@@ -252,9 +266,17 @@ public class TaskServiceImpl implements TaskService {
      * @param scheduleJob
      * @throws SchedulerException
      */
-    public void runAJobNow(TaskInfo scheduleJob) throws SchedulerException {
-        JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
-        scheduler.triggerJob(jobKey);
+    public void runAJobNow(TaskInfo scheduleJob) {
+        try {
+            if (checkExists(scheduleJob.getJobName(), scheduleJob.getJobGroup())) {
+                JobKey jobKey = JobKey.jobKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
+                scheduler.triggerJob(jobKey);
+            }else {
+                throw new RuntimeException("立即执行job的job不存在,jobName:"+scheduleJob.getJobName()+",jobGroup:"+scheduleJob.getJobGroup());
+            }
+        } catch (SchedulerException e) {
+            logger.error("runAJobNow error {} ", e);
+        }
     }
 
     /**
@@ -263,17 +285,21 @@ public class TaskServiceImpl implements TaskService {
      * @param scheduleJob
      * @throws SchedulerException
      */
-    public void updateJobCron(TaskInfo scheduleJob) throws SchedulerException {
+    public void updateJobCron(TaskInfo scheduleJob) {
 
-        TriggerKey triggerKey = TriggerKey.triggerKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
+        try {
+            TriggerKey triggerKey = TriggerKey.triggerKey(scheduleJob.getJobName(), scheduleJob.getJobGroup());
 
-        CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
+            CronTrigger trigger = (CronTrigger) scheduler.getTrigger(triggerKey);
 
-        CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression());
+            CronScheduleBuilder scheduleBuilder = CronScheduleBuilder.cronSchedule(scheduleJob.getCronExpression());
 
-        trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
+            trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(scheduleBuilder).build();
 
-        scheduler.rescheduleJob(triggerKey, trigger);
+            scheduler.rescheduleJob(triggerKey, trigger);
+        } catch (SchedulerException e) {
+            logger.error("updateJobCron error {} ", e);
+        }
     }
 
 }
