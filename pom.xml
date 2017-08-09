@@ -41,6 +41,7 @@
         <spring-boot-starter-redis.version>1.4.7.RELEASE</spring-boot-starter-redis.version>
         <jedis.version>2.9.0</jedis.version>
         <rocketmq.version>4.1.0-incubating</rocketmq.version>
+        <spring-kafka.version>1.2.2.RELEASE</spring-kafka.version>
     </properties>
 
     <dependencies>
@@ -160,11 +161,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.quartz-scheduler</groupId>
-            <artifactId>quartz</artifactId>
-            <version>2.2.3</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.quartz-scheduler</groupId>-->
+            <!--<artifactId>quartz</artifactId>-->
+            <!--<version>2.2.3</version>-->
+        <!--</dependency>-->
 
         <!-- email -->
         <dependency>
@@ -210,6 +211,13 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons-core</artifactId>
             <version>1.4.1.RELEASE</version>
+        </dependency>
+
+        <!-- kafka -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+            <version>${spring-kafka.version}</version>
         </dependency>
 
         <!-- RocketMq客户端相关依赖 -->
