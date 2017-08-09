@@ -36,7 +36,7 @@ public class TaskServiceTest extends BaseTest {
         taskInfo.setJobName("Task测试job");
         taskInfo.setJobGroup("JOB-GROUP-TEST");
         taskInfo.setCronExpression("0/5 * * * * ?");
-        taskInfo.setJobStatus("2");
+        taskInfo.setJobStatus(2);
         taskService.pauseJob(taskInfo);
     }
 
