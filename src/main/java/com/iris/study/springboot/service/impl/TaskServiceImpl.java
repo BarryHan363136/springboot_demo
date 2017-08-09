@@ -5,6 +5,7 @@ import com.iris.study.springboot.job.QuartzJobFactory;
 import com.iris.study.springboot.mapper.TaskInfoMapper;
 import com.iris.study.springboot.service.TaskService;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -153,7 +154,11 @@ public class TaskServiceImpl implements TaskService {
                     job.setJobGroup(jobKey.getGroup());
                     job.setJobDescription("触发器:" + trigger.getKey());
                     Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
-                    job.setJobStatus(triggerState.name());
+                    Integer jobState = null;
+                    if (StringUtils.isNotEmpty(triggerState.name())){
+                        jobState = Integer.parseInt(triggerState.name());
+                    }
+                    job.setJobStatus(jobState);
                     if (trigger instanceof CronTrigger) {
                         CronTrigger cronTrigger = (CronTrigger) trigger;
                         String cronExpression = cronTrigger.getCronExpression();
@@ -170,7 +175,8 @@ public class TaskServiceImpl implements TaskService {
 
     /**
      * 所有正在运行的job
-     *
+     * TriggerState job状态定义如下:
+     * NONE:0;NORMAL:1;PAUSED:2;COMPLETE:3;ERROR:4;BLOCKED:5
      * @return
      * @throws SchedulerException
      */
@@ -188,7 +194,11 @@ public class TaskServiceImpl implements TaskService {
                 job.setJobGroup(jobKey.getGroup());
                 job.setJobDescription("触发器:" + trigger.getKey());
                 Trigger.TriggerState triggerState = scheduler.getTriggerState(trigger.getKey());
-                job.setJobStatus(triggerState.name());
+                Integer jobState = null;
+                if (StringUtils.isNotEmpty(triggerState.name())){
+                    jobState = Integer.parseInt(triggerState.name());
+                }
+                job.setJobStatus(jobState);
                 if (trigger instanceof CronTrigger) {
                     CronTrigger cronTrigger = (CronTrigger) trigger;
                     String cronExpression = cronTrigger.getCronExpression();

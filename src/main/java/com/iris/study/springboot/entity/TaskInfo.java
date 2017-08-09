@@ -21,7 +21,7 @@ public class TaskInfo implements Serializable{
 	private String jobDescription;
 	
 	/**任务状态*/
-	private String jobStatus;
+	private Integer jobStatus;
 	
 	/**任务表达式*/
 	private String cronExpression;
@@ -67,11 +67,11 @@ public class TaskInfo implements Serializable{
 		this.jobDescription = jobDescription;
 	}
 
-	public String getJobStatus() {
+	public Integer getJobStatus() {
 		return jobStatus;
 	}
 
-	public void setJobStatus(String jobStatus) {
+	public void setJobStatus(Integer jobStatus) {
 		this.jobStatus = jobStatus;
 	}
 
