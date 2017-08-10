@@ -11,7 +11,7 @@ public class KafkaListeners {
 
     private static final Logger logger = LoggerFactory.getLogger(KafkaListeners.class);
 
-    @KafkaListener(topics = {"test-topic"})
+    @KafkaListener(topics = {"iris-test-topic"})
     public void testListener(ConsumerRecord<?, ?> record) {
 
         Optional<?> messages = Optional.ofNullable(record.value());

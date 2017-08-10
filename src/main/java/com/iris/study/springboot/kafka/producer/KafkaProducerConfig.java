@@ -5,20 +5,29 @@ import java.util.Map;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.stereotype.Component;
 
 @Configuration
 @EnableKafka
+@Component
 public class KafkaProducerConfig {
+
+    @Value("${kafka.binder.brokers}")
+    private String brokers;//需要在application.properties中配置此属性
+
+    @Value("${kafka.binder.group}")
+    private String group;//需要在application.properties中配置此属性
 
     public Map<String, Object> producerConfigs() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.179.200:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, brokers);
         props.put(ProducerConfig.RETRIES_CONFIG, 0);
         props.put(ProducerConfig.BATCH_SIZE_CONFIG, 4096);
         props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
