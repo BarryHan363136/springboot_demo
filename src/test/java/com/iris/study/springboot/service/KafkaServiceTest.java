@@ -2,6 +2,7 @@ package com.iris.study.springboot.service;
 
 import com.alibaba.fastjson.JSON;
 import com.iris.study.springboot.base.BaseTest;
+import com.iris.study.springboot.entity.Contact;
 import com.iris.study.springboot.entity.TaskInfo;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -26,14 +27,17 @@ public class KafkaServiceTest extends BaseTest {
     public void testSendkafkaMsg() {
         try {
             logger.info("<===============开始发送消息=======================>");
-            TaskInfo taskInfo = new TaskInfo();
-            taskInfo.setJobName("Task测试job");
-            taskInfo.setJobGroup("JOB-GROUP-TEST");
-            taskInfo.setCronExpression("0/5 * * * * ?");
-            taskInfo.setJobStatus(2);
-            taskInfo.setJobDescription("kafka测试job消息,主题为:iris-test-topic,内容为task实体");
-            //kafkaTemplate.send(testTopic, "bootcwnao", message);
-            ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(testTopic, JSON.toJSONString(taskInfo));
+            Contact contact = new Contact();
+            contact.setId(1);
+            contact.setName("张三");
+            contact.setSex(1);
+            contact.setAge(30);
+            contact.setPhone("021-85365248");
+            contact.setMobile("15868536952");
+            contact.setAddress("上海市黄浦区龙华东路800号1206室");
+            contact.setEmail("test@163.com");
+            contact.setRemark("remark-test");
+            ListenableFuture<SendResult<String, Object>> future = kafkaTemplate.send(testTopic, JSON.toJSONString(contact));
             if (future!=null){
                 SendResult<String, Object> sendResult = future.get();
                 if (sendResult!=null){

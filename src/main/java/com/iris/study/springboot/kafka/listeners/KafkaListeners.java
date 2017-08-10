@@ -1,5 +1,8 @@
 package com.iris.study.springboot.kafka.listeners;
 
+import com.alibaba.fastjson.JSON;
+import com.iris.study.springboot.common.parse.JSONMapper;
+import com.iris.study.springboot.entity.Contact;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +20,11 @@ public class KafkaListeners {
         Optional<?> messages = Optional.ofNullable(record.value());
 
         if (messages.isPresent()) {
-            Object msg = messages.get();
-            logger.info("  this is the testTopic send message: " + msg);
+            String receive = (String) messages.get();
+            logger.info("  this is the testTopic send message: " + receive);
+            Contact contact = (Contact) JSONMapper.fromJson(receive, Contact.class);
+            logger.info("============>getId:"+contact.getId());
+            logger.info("============>getName:"+contact.getName());
         }
     }
 }
