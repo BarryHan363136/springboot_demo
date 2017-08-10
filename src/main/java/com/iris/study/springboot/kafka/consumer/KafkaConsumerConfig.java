@@ -47,7 +47,7 @@ public class KafkaConsumerConfig {
         propsMap.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokers);
         propsMap.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         propsMap.put(ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG, "100");
-        propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "15000");
+        propsMap.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, "60000");
 
         //一次从kafka中poll出来的数据条数
         //max.poll.records条数据需要在在session.timeout.ms这个时间内处理完
