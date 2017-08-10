@@ -6,6 +6,7 @@ import com.iris.study.springboot.entity.Contact;
 import com.iris.study.springboot.entity.TaskInfo;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KafkaServiceTest extends BaseTest {
 
@@ -23,6 +27,7 @@ public class KafkaServiceTest extends BaseTest {
 
     private static final String testTopic = "iris-test-topic";
 
+    @Ignore
     @Test
     public void testSendkafkaMsg() {
         try {
@@ -57,6 +62,31 @@ public class KafkaServiceTest extends BaseTest {
         } catch (Exception e) {
             logger.error("testSendkafkaMsg error {} ", e);
         }
+    }
+
+    @Test
+    public void testSendBatchkafkaMsg() {
+        List<String> list = new ArrayList<String>();
+        for (int i=1;i<100001;i++){
+            Contact contact = new Contact();
+            contact.setId(i);
+            contact.setName("张三-"+i);
+            contact.setSex(1);
+            contact.setAge(30);
+            contact.setPhone("021-85365248");
+            contact.setMobile("15868536952");
+            contact.setAddress("上海市黄浦区龙华东路800号1206室");
+            contact.setEmail("test@163.com");
+            contact.setRemark("remark-test");
+            list.add(JSON.toJSONString(contact));
+        }
+        long startTime = System.currentTimeMillis();
+        logger.info("<=====producer======客户端开始发送数据========================>");
+        for (String jsonData : list){
+            kafkaTemplate.send(testTopic, jsonData);
+        }
+        long endTime = System.currentTimeMillis();
+        logger.info("<======producer=====客户端发送数据结束========================>发送十万条数据总耗时:"+(endTime-startTime));
     }
 
 }
