@@ -36,7 +36,7 @@ public class KafkaListeners {
     }
 
     private void performBusiness(Contact contact){
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+        ExecutorService executor = Executors.newFixedThreadPool(2);
             executor.submit(new Runnable() {
                 public void run() {
                     contactMapper.insert(contact);
