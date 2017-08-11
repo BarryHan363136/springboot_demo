@@ -23,7 +23,7 @@ public class KafkaListeners {
     @KafkaListener(topics = {"iris-test-topic"})
     public void testListener(ConsumerRecord<?, ?> record) {
         long startTime = System.currentTimeMillis();
-        logger.info("<===========客户端开始发送数据========================>");
+        logger.info("<===========客户端开始接收数据========================>");
         Optional<?> messages = Optional.ofNullable(record.value());
         if (messages.isPresent()) {
             String receive = (String) messages.get();
@@ -32,7 +32,7 @@ public class KafkaListeners {
             performBusiness(contact);
         }
         long endTime = System.currentTimeMillis();
-        logger.info("<===========客户端发送数据结束========================>发送十万条数据总耗时:"+(endTime-startTime));
+        logger.info("<===========客户端接收数据结束:"+(endTime-startTime));
     }
 
     private void performBusiness(Contact contact){

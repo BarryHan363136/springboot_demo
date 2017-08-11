@@ -67,7 +67,7 @@ public class KafkaServiceTest extends BaseTest {
     @Test
     public void testSendBatchkafkaMsg() {
         List<String> list = new ArrayList<String>();
-        for (int i=1;i<100001;i++){
+        for (int i=1;i<11;i++){
             Contact contact = new Contact();
             contact.setId(i);
             contact.setName("张三-"+i);
@@ -86,7 +86,7 @@ public class KafkaServiceTest extends BaseTest {
             kafkaTemplate.send(testTopic, jsonData);
         }
         long endTime = System.currentTimeMillis();
-        logger.info("<======producer=====客户端发送数据结束========================>发送十万条数据总耗时:"+(endTime-startTime));
+        logger.info("<======producer=====客户端发送数据结束,发送十万条数据总耗时:"+(endTime-startTime));
     }
 
 }
