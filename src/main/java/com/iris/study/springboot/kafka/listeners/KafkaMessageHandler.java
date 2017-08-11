@@ -1,12 +1,10 @@
 package com.iris.study.springboot.kafka.listeners;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutorService;
@@ -23,7 +21,7 @@ public class KafkaMessageHandler {
 
     private ExecutorService executorService;
 
-    public void execute(ConsumerRecord<?, ?> record) {
+    public void execute() {
         executorService = Executors.newFixedThreadPool(3);
         while (true) {
             ConsumerRecords<String, String> records = consumer.poll(1000);

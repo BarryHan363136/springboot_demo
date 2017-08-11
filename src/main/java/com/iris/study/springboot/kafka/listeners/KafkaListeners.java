@@ -22,6 +22,7 @@ public class KafkaListeners {
 
     @KafkaListener(topics = {"iris-test-topic"})
     public void testListener(ConsumerRecord<?, ?> record) {
+        logger.info("【*** 接收消息 ***】key = " + record.key() + "、value = "+ record.value());
         long startTime = System.currentTimeMillis();
         logger.info("<===========客户端开始接收数据========================>");
         Optional<?> messages = Optional.ofNullable(record.value());

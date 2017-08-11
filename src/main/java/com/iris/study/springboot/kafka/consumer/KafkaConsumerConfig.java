@@ -28,6 +28,8 @@ public class KafkaConsumerConfig {
     @Value("${kafka.binder.group}")
     private String group;//需要在application.properties中配置此属性
 
+    //KafkaMessageListenerContainer.ListenerConsumer
+
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<String, String>();
