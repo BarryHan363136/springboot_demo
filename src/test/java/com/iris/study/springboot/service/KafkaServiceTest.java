@@ -2,8 +2,7 @@ package com.iris.study.springboot.service;
 
 import com.alibaba.fastjson.JSON;
 import com.iris.study.springboot.base.BaseTest;
-import com.iris.study.springboot.entity.Contact;
-import com.iris.study.springboot.entity.TaskInfo;
+import com.iris.study.springboot.entity.business.Contact;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.junit.Ignore;

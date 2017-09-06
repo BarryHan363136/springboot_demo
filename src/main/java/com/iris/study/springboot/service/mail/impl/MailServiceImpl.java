@@ -1,6 +1,6 @@
-package com.iris.study.springboot.service.impl;
+package com.iris.study.springboot.service.mail.impl;
 
-import com.iris.study.springboot.service.MailService;
+import com.iris.study.springboot.service.mail.MailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package com.iris.study.springboot.service;
 
 import com.iris.study.springboot.base.BaseTest;
-import org.apache.commons.lang3.StringUtils;
+import com.iris.study.springboot.service.redis.RedisService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;

@@ -1,9 +1,9 @@
-package com.iris.study.springboot.service.impl;
+package com.iris.study.springboot.service.quartz.impl;
 
-import com.iris.study.springboot.entity.TaskInfo;
+import com.iris.study.springboot.entity.quartz.TaskInfo;
 import com.iris.study.springboot.job.QuartzJobFactory;
-import com.iris.study.springboot.mapper.TaskInfoMapper;
-import com.iris.study.springboot.service.TaskService;
+import com.iris.study.springboot.mapper.quartz.TaskInfoMapper;
+import com.iris.study.springboot.service.quartz.TaskService;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.quartz.*;
 import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.quartz.TriggerKey;
 

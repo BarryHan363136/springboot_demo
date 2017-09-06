@@ -1,4 +1,4 @@
-package com.iris.study.springboot.entity;
+package com.iris.study.springboot.entity.quartz;
 
 import java.io.Serializable;
 

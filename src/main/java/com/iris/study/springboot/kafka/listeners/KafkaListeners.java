@@ -1,8 +1,8 @@
 package com.iris.study.springboot.kafka.listeners;
 
 import com.iris.study.springboot.common.parse.JSONMapper;
-import com.iris.study.springboot.entity.Contact;
-import com.iris.study.springboot.mapper.ContactMapper;
+import com.iris.study.springboot.entity.business.Contact;
+import com.iris.study.springboot.mapper.business.ContactMapper;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

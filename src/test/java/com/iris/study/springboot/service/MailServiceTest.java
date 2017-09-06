@@ -1,6 +1,7 @@
 package com.iris.study.springboot.service;
 
 import com.iris.study.springboot.base.BaseTest;
+import com.iris.study.springboot.service.mail.MailService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

@@ -1,4 +1,4 @@
-package com.iris.study.springboot.entity;
+package com.iris.study.springboot.entity.business;
 
 public class Contact {
     private Integer id;

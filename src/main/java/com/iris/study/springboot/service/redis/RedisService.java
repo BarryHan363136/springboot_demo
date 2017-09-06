@@ -1,4 +1,4 @@
-package com.iris.study.springboot.service;
+package com.iris.study.springboot.service.redis;
 
 import java.util.List;
 import java.util.Set;

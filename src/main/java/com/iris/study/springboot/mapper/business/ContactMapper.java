@@ -1,7 +1,7 @@
-package com.iris.study.springboot.mapper;
+package com.iris.study.springboot.mapper.business;
 
 import com.iris.study.springboot.base.BaseMapper;
-import com.iris.study.springboot.entity.Contact;
+import com.iris.study.springboot.entity.business.Contact;
 import org.springframework.stereotype.Repository;
 
 @Repository("contactMapper")

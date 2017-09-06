@@ -1,6 +1,6 @@
-package com.iris.study.springboot.mapper;
+package com.iris.study.springboot.mapper.base;
 
-import com.iris.study.springboot.entity.Contact;
+import com.iris.study.springboot.entity.business.Contact;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

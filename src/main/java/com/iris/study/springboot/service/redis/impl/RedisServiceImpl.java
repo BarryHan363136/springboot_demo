@@ -1,6 +1,6 @@
-package com.iris.study.springboot.service.impl;
+package com.iris.study.springboot.service.redis.impl;
 
-import com.iris.study.springboot.service.RedisService;
+import com.iris.study.springboot.service.redis.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Service;

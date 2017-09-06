@@ -1,6 +1,6 @@
 package com.iris.study.springboot.job;
 
-import com.iris.study.springboot.entity.TaskInfo;
+import com.iris.study.springboot.entity.quartz.TaskInfo;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;

@@ -1,4 +1,4 @@
-package com.iris.study.springboot.service;
+package com.iris.study.springboot.service.mail;
 
 public interface MailService {
 

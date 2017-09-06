@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.iris.study.springboot.mapper.TaskInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.iris.study.springboot.entity.TaskInfo" >
+<mapper namespace="com.iris.study.springboot.mapper.quartz.TaskInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.iris.study.springboot.entity.quartz.TaskInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="job_name" property="jobName" jdbcType="VARCHAR" />
     <result column="job_group" property="jobGroup" jdbcType="VARCHAR" />
@@ -26,7 +26,7 @@
     delete from t_task_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.iris.study.springboot.entity.TaskInfo" >
+  <insert id="insert" parameterType="com.iris.study.springboot.entity.quartz.TaskInfo" >
     insert into t_task_info (id, job_name, job_group, 
       job_description, job_status, cron_expression, 
       create_time, updata_time, remark
@@ -36,7 +36,7 @@
       #{createTime,jdbcType=VARCHAR}, #{updataTime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.iris.study.springboot.entity.TaskInfo" >
+  <insert id="insertSelective" parameterType="com.iris.study.springboot.entity.quartz.TaskInfo" >
     insert into t_task_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -97,7 +97,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.iris.study.springboot.entity.TaskInfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.iris.study.springboot.entity.quartz.TaskInfo" >
     update t_task_info
     <set >
       <if test="jobName != null" >
@@ -127,7 +127,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.iris.study.springboot.entity.TaskInfo" >
+  <update id="updateByPrimaryKey" parameterType="com.iris.study.springboot.entity.quartz.TaskInfo" >
     update t_task_info
     set job_name = #{jobName,jdbcType=VARCHAR},
       job_group = #{jobGroup,jdbcType=VARCHAR},

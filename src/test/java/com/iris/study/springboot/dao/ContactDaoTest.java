@@ -1,8 +1,8 @@
 package com.iris.study.springboot.dao;
 
 import com.iris.study.springboot.base.BaseTest;
-import com.iris.study.springboot.entity.Contact;
-import com.iris.study.springboot.mapper.ContactMapper;
+import com.iris.study.springboot.entity.business.Contact;
+import com.iris.study.springboot.mapper.business.ContactMapper;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

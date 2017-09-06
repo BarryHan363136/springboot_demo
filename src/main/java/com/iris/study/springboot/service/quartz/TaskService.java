@@ -1,6 +1,6 @@
-package com.iris.study.springboot.service;
+package com.iris.study.springboot.service.quartz;
 
-import com.iris.study.springboot.entity.TaskInfo;
+import com.iris.study.springboot.entity.quartz.TaskInfo;
 
 import java.util.List;
 
