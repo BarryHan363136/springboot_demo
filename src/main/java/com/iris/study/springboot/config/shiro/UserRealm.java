@@ -1,5 +1,7 @@
 package com.iris.study.springboot.config.shiro;
 
+import com.iris.study.springboot.entity.shiro.UserInfo;
+import com.iris.study.springboot.service.shiro.UserService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -13,9 +15,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.lance.shiro.domain.UserInfo;
-import com.lance.shiro.service.UserService;
 
 /**
  * 验证用户登录

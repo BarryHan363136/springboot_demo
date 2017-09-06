@@ -3,6 +3,11 @@ package com.iris.study.springboot.service.shiro.impl;
 import java.util.List;
 import java.util.Set;
 
+import com.iris.study.springboot.entity.shiro.ModuleInfo;
+import com.iris.study.springboot.entity.shiro.UserInfo;
+import com.iris.study.springboot.mapper.shiro.UserMapper;
+import com.iris.study.springboot.service.shiro.ModuleService;
+import com.iris.study.springboot.service.shiro.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
