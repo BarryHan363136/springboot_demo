@@ -1,4 +1,4 @@
-package com.iris.study.springboot.config;
+package com.iris.study.springboot.config.datasource;
 
 import javax.sql.DataSource;
 

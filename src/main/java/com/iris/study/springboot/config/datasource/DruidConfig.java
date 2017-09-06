@@ -1,4 +1,4 @@
-package com.iris.study.springboot.config;
+package com.iris.study.springboot.config.datasource;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;

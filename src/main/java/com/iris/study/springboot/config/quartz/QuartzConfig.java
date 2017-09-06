@@ -1,4 +1,4 @@
-package com.iris.study.springboot.config;
+package com.iris.study.springboot.config.quartz;
 
 import java.io.IOException;
 import java.util.Properties;
