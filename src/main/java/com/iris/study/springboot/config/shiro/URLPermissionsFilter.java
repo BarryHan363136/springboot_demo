@@ -1,13 +1,5 @@
 package com.iris.study.springboot.config.shiro;
 
-/**
- * shiro url权限过滤
- *
- * @author: hants
- * @create: 2017/9/6 19:08
- * @email: htbyanghang2@163.com
- * desc:
- */
 import java.io.IOException;
 import java.util.List;
 
@@ -22,6 +14,15 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+/**
+ * shiro url权限过滤
+ *
+ * @author: hants
+ * @create: 2017/9/6 19:08
+ * @email: htbyanghang2@163.com
+ * desc:
+ */
+
 
 @Component("urlPermissionsFilter")
 public class URLPermissionsFilter extends PermissionsAuthorizationFilter{

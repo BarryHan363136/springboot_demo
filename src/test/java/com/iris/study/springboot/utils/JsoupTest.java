@@ -62,6 +62,16 @@ public class JsoupTest {
         }
     }
 
+    @Test
+    public void testParseUrl(){
+
+        try {
+            Document document = Jsoup.connect("").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
