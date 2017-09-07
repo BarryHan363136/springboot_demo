@@ -1,4 +1,4 @@
-package com.iris.study.springboot.controller;
+package com.iris.study.springboot.controller.business;
 
 import com.alibaba.fastjson.JSON;
 import com.iris.study.springboot.vo.boss.CustomInfo;

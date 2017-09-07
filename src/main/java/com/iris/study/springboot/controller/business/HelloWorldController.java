@@ -1,4 +1,4 @@
-package com.iris.study.springboot.controller;
+package com.iris.study.springboot.controller.business;
 
 import com.iris.study.springboot.vo.response.RestReturnObject;
 import org.springframework.web.bind.annotation.RequestMapping;
