@@ -23,7 +23,7 @@ import javax.servlet.MultipartConfigElement;
  *
  * 启动方式，右键->run/debug->Spring Boot App
  *
- * @author chongwenjun
+ * @author
  *
  */
 @SpringBootApplication
